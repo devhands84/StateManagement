@@ -8,6 +8,8 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import useTodos from '../hooks/useTodos';
+import useTodosActions from '../hooks/useTodosActions';
 
 function BlackButton({onPress, title}: {onPress(): void; title: string}) {
   return (
@@ -21,12 +23,13 @@ function BlackButton({onPress, title}: {onPress(): void; title: string}) {
 }
 
 function TodoItem({id, text, done}: {id: number; text: string; done: boolean}) {
+  const {toggle, remove} = useTodosActions();
   const onToggle = () => {
-    console.log('toggle');
+    toggle(id);
   };
 
   const onRemove = () => {
-    console.log('remove');
+    remove(id);
   };
 
   return (
@@ -40,10 +43,7 @@ function TodoItem({id, text, done}: {id: number; text: string; done: boolean}) {
 }
 
 function Todos() {
-  const todos = [
-    {id: 1, text: 'learn react native', done: true},
-    {id: 2, text: 'learn state change', done: false},
-  ];
+  const todos = useTodos();
 
   return (
     <FlatList
@@ -61,9 +61,10 @@ function Todos() {
 
 function TodoInput() {
   const [text, setText] = useState('');
+  const {add} = useTodosActions();
 
   const onPress = () => {
-    console.log('register');
+    add(text);
     setText('');
   };
 

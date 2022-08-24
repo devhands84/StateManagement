@@ -6,12 +6,9 @@ export interface Todo {
   done: boolean;
 }
 
-const inittialState: Todo[] = [
-  {id: 1, text: 'learn react native', done: true},
-  {id: 2, text: 'learn state change', done: false},
-];
+const inittialState: Todo[] = [];
 
-let nextId = 3;
+let nextId = 1;
 const todoSlice = createSlice({
   name: 'todos',
   initialState: inittialState,
@@ -30,8 +27,7 @@ const todoSlice = createSlice({
       },
     },
     remove(state, action: PayloadAction<number>) {
-      const index = state.findIndex(todo => todo.id === action.payload);
-      state.splice(index);
+      return state.filter(todo => todo.id !== action.payload);
     },
     toggle(state, action: PayloadAction<number>) {
       const selected = state.find(todo => todo.id === action.payload);
